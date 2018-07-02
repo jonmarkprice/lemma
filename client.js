@@ -36,6 +36,35 @@ would want to parse strings.
 No click controls at all. Those can be added later, but this must be seen as
 a GAME.
 */
+const token = Vue.component("token", {
+  props: ["expr"],
+  template: `
+  <div class="token">
+    <div v-if="expr.length == 1" class="symbol">
+      {{ expr[0] }}
+    </div>
+    <div v-else class="symbol">
+      <span v-for="subexpr in expr">
+        {{ subexpr }}
+      </span>
+    </div>
+    <div class="highlight"></div>
+  </div>
+  `,
+});
+
+/* TODO: Make recursive to work for abitrary nesting
+NOTE: Can do in a render function
+const symList = Vue.component("symList", {
+  props: ["syms"],
+  template: `
+    <span class="sym-list">
+      <span v-for
+    </span>
+  `
+});
+*/
+
 const app = new Vue({
   el: "#page",
   data: {
@@ -52,7 +81,7 @@ const app = new Vue({
     y: 0,
     message: null, //{type: "", text: ""} // type in {error, ok, admin, ...}
     history: [], // history of indicies to highlight [or integrate into steps], also may list rules
-    steps: [["a", "+", "b", "(", "~", "a", "+", "b", ")"]],
+    steps: [[["~", "a"], ["+"], ["~", "b"]]],
     select: {},
   },
   created() {
@@ -68,14 +97,12 @@ const app = new Vue({
     });
   },
   methods: {
-    /* TODO: It would be very nice to be able to select both left and right of
-       the starting cursor. */
     isSelected(index) {
       if ("right" in this.select) {      
         return (index >= this.select.left && index <= this.select.right);
       } else {
         return (index == this.select.left);
-      }
+      } 
     },
     esc() {
       console.log("ESC");
@@ -114,5 +141,9 @@ const app = new Vue({
       }
       this.select.right = this.x;
     },
+  },
+  provide: {
+    /* TODO: It would be very nice to be able to select both left and right of
+       the starting cursor. */
   }
 });

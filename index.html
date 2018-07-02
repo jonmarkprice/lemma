@@ -23,12 +23,12 @@
       <section id="steps-section">
         <h2>Steps</h2>
         <ol id="steps">
-          <li v-for="(step, i) in steps" class="step">
-            <div v-for="(token, j) in step" class="token"
-                 v-bind:class="{cursor: (j == x), sel: isSelected(j)}">
-                <div class="symbol">{{ token }}</div>
-                <div class="highlight"></div>
-            </div>
+          <li v-for="step in steps" class="step">
+            <template v-for="(token, j) in step">
+              <token v-bind:expr="token" v-bind:index="j"
+                v-bind:class="{cursor: x == j, sel: isSelected(j)}">
+              </token>
+            </template>
           </li>
         </ol>
       </section>
