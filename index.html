@@ -10,34 +10,34 @@
   <body>
     <header>
       <h1>Lemma</h1>
-    </header>
-    <main id="page">
-      <!-- We don't have to leave this empty -->
-
-      <p>Active: ({{ x }}, {{ y }})</p>
       <nav>
-        <h2>Levels</h2>
+<!--        <h2>Levels</h2>
         <ol id="levels">
           <li class="level"><a href="#">Level 1</a></li>
         </ol>
+-->
       </nav>
-      <section id="content">
-        <section id="steps-section">
-          <ol id="steps">
-            <li class="step" v-for="(step, i) in steps">
-              <ol>
-                <li v-for="(token, j) in step"
-                  v-bind:class="{focused: (j == x)}">{{ token }}</li>
-              <ol>
-            </li>
-          </ol>
-        </section>
-        <section id="laws-section">
-          <ul id="laws">
-            <li class="law" v-for="(law, i) in laws"
-              v-bind:class="{focused: (i == y)}">{{ law }}</li>
-          </ul>
-        </section>
+
+    </header>
+    <main id="page">
+      <section id="steps-section">
+        <h2>Steps</h2>
+        <ol id="steps">
+          <li v-for="(step, i) in steps" class="step">
+            <div v-for="(token, j) in step" class="token"
+                 v-bind:class="{cursor: (j == x), sel: isSelected(j)}">
+                <div class="symbol">{{ token }}</div>
+                <div class="highlight"></div>
+            </div>
+          </li>
+        </ol>
+      </section>
+      <section id="laws-section">
+        <h2>Laws</h2>
+        <ul id="laws">
+          <li class="law" v-for="(law, i) in laws"
+            v-bind:class="{focused: (i == y)}">{{ law }}</li>
+        </ul>
       </section>
     </main>
     <footer>

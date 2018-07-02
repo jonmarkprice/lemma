@@ -1,4 +1,99 @@
-.focused {
+body {
+  font-family: sans-serif;
+}
+
+.token.cursor {
   color: red;
-  font-weight: bold;
+  /* border-bottom: 8px solid #2E7;*/
+}
+
+.step {
+  border: 1px dotted blue;
+}
+
+.token {
+  /*
+  border-bottom: 8px solid #AAA;
+  margin: 1px;
+  background-color: #EEE; 
+  padding: 0.2em;
+  */
+  margin-left; 1px;
+  margin-right: 1px;
+}
+
+.step {
+  display: flex;
+  flex-direction: row;
+  background-color: #777;
+}
+
+.token .symbol {
+  background-color: lightgrey;
+  padding-top: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.token .highlight {
+  height: 8px;
+  background-color: #EEE;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.token.cursor .highlight {
+  background-color: #2E7;
+}
+
+.token.sel .highlight {
+  background-color: lightblue !important;
+}
+
+
+/* Sections */
+#levels {
+  /* Make (collapsable) sidebar */
+  background-color: lightblue;
+}
+
+#page {
+  display: flex;
+}
+
+#steps-section {
+  border: thin solid yellow;
+  flex-grow: 2;
+}
+
+#laws-section {
+  background-color: #333;
+  color: white;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 200px;
+}
+
+#laws {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.focused {
+  background-color: dodgerblue;
+}
+
+/* Headings */
+#laws-section > h2, #steps-section > h2 {
+  font-size: small;
+  margin: 0;
+  margin-bottom: 0.5em;
+}
+
+#steps {
+  padding: 0;
+  margin: 0;
 }

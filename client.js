@@ -47,12 +47,13 @@ const app = new Vue({
       "A + B = B + A",
       "A * B + B * A",
     ],
-    tokens: 3, // this will vary with the arity of the transformation
+    tokens: 9, // this will vary with the arity of the transformation
     x: 0,
     y: 0,
     message: null, //{type: "", text: ""} // type in {error, ok, admin, ...}
     history: [], // history of indicies to highlight [or integrate into steps], also may list rules
-    steps: [["a", "+", "a"]],
+    steps: [["a", "+", "b", "(", "~", "a", "+", "b", ")"]],
+    select: {},
   },
   created() {
     window.addEventListener("keyup", event => {
@@ -62,12 +63,27 @@ const app = new Vue({
         case "ArrowLeft"  : return this.left();
         case "ArrowRight" : return this.right();
         case " "          : return this.space();
+        case "Escape"     : return this.esc();
       }
     });
   },
   methods: {
+    /* TODO: It would be very nice to be able to select both left and right of
+       the starting cursor. */
+    isSelected(index) {
+      if ("right" in this.select) {      
+        return (index >= this.select.left && index <= this.select.right);
+      } else {
+        return (index == this.select.left);
+      }
+    },
+    esc() {
+      console.log("ESC");
+      this.select = {};
+    },
     space() {
-      console.log("-- SPACE --")
+      console.log("-- SPACE --");
+      this.select = {left: this.x};
     },
     up() {
       if (this.y > 0) {
@@ -86,16 +102,17 @@ const app = new Vue({
     left() {
       if (this.x > 0) {
         this.x--;
-      } else {
-        this.x = this.tokens - 1; // wrap around
+      }
+      // No wrap for now as may cause bugs with selection
+      if (this.x >= this.select.left) {
+        this.select.right = this.x;
       }
     },
     right() {
       if (this.x + 1 < this.tokens) {
         this.x++;
-      } else {
-        this.x = 0; // wrap around
       }
+      this.select.right = this.x;
     },
   }
 });
